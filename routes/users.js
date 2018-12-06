@@ -2,6 +2,7 @@ let express = require('express');
 let router = express.Router();
 let queryObj = require('../hyperledger/userchain/query');
 let invokeObj = require('../hyperledger/userchain/invoke');
+let uuidv4 = require('uuid/v4');
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
@@ -30,10 +31,10 @@ router.get('/fetchblock', function(req, res, next) {
     }
 });
 
-router.post('/addblock', function(req, res, next) {
+router.post('/insertdata', function(req, res, next) {
     console.log("addblock request params: ", req.body);
     let body = [
-        req.body['hash'], // Generate Here instead of expecting in body
+        uuidv4(),
         req.body['email'],
         req.body['role'],
         req.body['company'],
