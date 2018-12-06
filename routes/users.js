@@ -11,7 +11,7 @@ router.get('/', function(req, res, next) {
 router.get('/fetchblock', function(req, res, next) {
     try{
         console.log("FetchBlock request params: ", req.body);
-        queryObj.findBlock(req.body.blockHash, function (err, query_res) {
+        queryObj.findBlock(req.body.block_hash, function (err, query_res) {
             if(err){
                 res.status(404).send({'msg':'Error while fetching block' + err});
             }

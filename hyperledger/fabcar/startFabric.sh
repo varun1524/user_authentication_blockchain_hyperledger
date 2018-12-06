@@ -7,6 +7,7 @@
 # Exit on first error
 set -e
 
+export PATH=$PATH:"/home/divyang/sjsu/user_authentication_hyperledger/hyperledger/bin"
 # don't rewrite paths for Windows Git Bash users
 export MSYS_NO_PATHCONV=1
 starttime=$(date +%s)
