@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
-let query = require('./../hyperledger/fabcar/query');
+let queryObj = require('../hyperledger/fabcar/query');
+let invokeObj = require('../hyperledger/fabcar/invoke');
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
@@ -10,11 +11,11 @@ router.get('/', function(req, res, next) {
 router.get('/fetchblock', function(req, res, next) {
     try{
         console.log("FetchBlock request params: ", req.body);
-        query.findBlock(req.body.block_hash, function (query_res) {
-           console.log("findBlock: ", query_res);
-            let res_body = {
-                'data': query_res
-            };
+        queryObj.findBlock(req.body.blockHash, function (err, query_res) {
+            if(err){
+                res.status(404).send({'msg':'Error while fetching block' + err});
+            }
+            console.log("findBlock: ", query_res);
             if(query_res){
                 res.status(200).send(query_res);
             }
@@ -31,11 +32,24 @@ router.get('/fetchblock', function(req, res, next) {
 
 router.post('/addblock', function(req, res, next) {
     console.log("addblock request params: ", req.body);
-    // role:
-    // company:
-    // duration:
-    // highlights:
-    res.status(200).send('respond with a resource');
+    let body = [
+        req.body['hash'],
+        req.body['make'],
+        req.body['model'],
+        req.body['color'],
+        req.body['owner'],
+    ];
+    invokeObj.invokeBlock(body, function (err, result) {
+        if(err){
+            res.status(404).send({'msg':'Error while adding block' + err});
+        }
+        if(result){
+            res.status(200).send({'msg':'success'});
+        }
+        else {
+            res.status(404).send({'msg':'failure'});
+        }
+    });
 });
 
 module.exports = router;
