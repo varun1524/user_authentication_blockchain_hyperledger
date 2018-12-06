@@ -7,13 +7,17 @@
 # Exit on first error
 set -e
 
-export PATH=$PATH:"/home/divyang/sjsu/user_authentication_hyperledger/hyperledger/bin"
+# Add path to hyperledger bin in PATH for current console
+export PATH=${PWD}/../bin:${PWD}:$PATH
+LEDGER_UTIL_PATH=${PWD}
 # don't rewrite paths for Windows Git Bash users
 export MSYS_NO_PATHCONV=1
 starttime=$(date +%s)
 LANGUAGE=${1:-"golang"}
+
 CC_SRC_PATH=github.com/fabcar/go
-if [ "$LANGUAGE" = "node" -o "$LANGUAGE" = "NODE" ]; then
+
+if [[ "$LANGUAGE" = "node" || "$LANGUAGE" = "NODE" ]]; then
 	CC_SRC_PATH=/opt/gopath/src/github.com/fabcar/node
 fi
 
@@ -22,6 +26,8 @@ rm -rf ./hfc-key-store
 
 # launch network; create channel and join peer to channel
 cd ../basic-network
+./stop.sh
+./teardown.sh
 ./start.sh
 
 # Now launch the CLI container in order to install, instantiate chaincode
@@ -38,3 +44,7 @@ printf "Start by installing required packages run 'npm install'\n"
 printf "Then run 'node enrollAdmin.js', then 'node registerUser'\n\n"
 printf "The 'node invoke.js' will fail until it has been updated with valid arguments\n"
 printf "The 'node query.js' may be run at anytime once the user has been registered\n\n"
+
+cd ${LEDGER_UTIL_PATH}
+node enrollAdmin.js
+node registerUser.js
