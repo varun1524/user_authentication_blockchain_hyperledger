@@ -10,15 +10,15 @@ const util = require('util');
 
 let Chaincode = class {
 
-    // The Init method is called when the Smart Contract 'fabcar' is instantiated by the blockchain network
+    // The Init method is called when the Smart Contract 'userchain' is instantiated by the blockchain network
     // Best practice is to have any Ledger initialization in separate function -- see initLedger()
     async Init(stub) {
-        console.info('=========== Instantiated fabcar chaincode ===========');
+        console.info('=========== Instantiated userchain chaincode ===========');
         return shim.success();
     }
 
     // The Invoke method is called as a result of an application request to run the Smart Contract
-    // 'fabcar'. The calling application program has also specified the particular smart contract
+    // 'userchain'. The calling application program has also specified the particular smart contract
     // function to be called, with arguments
     async Invoke(stub) {
         let ret = stub.getFunctionAndParameters();

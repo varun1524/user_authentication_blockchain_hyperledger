@@ -1,8 +1,8 @@
 {
-    "name": "fabcar",
+    "name": "userchain",
     "version": "1.0.0",
-    "description": "Hyperledger Fabric Car Sample Application",
-    "main": "fabcar.js",
+    "description": "Hyperledger Fabric userchain Sample Application",
+    "main": "userchain.js",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1"
     },
@@ -17,6 +17,7 @@
         "Hyperledger",
         "Fabric",
         "Car",
+        "userchain",
         "Sample",
         "Application"
     ]

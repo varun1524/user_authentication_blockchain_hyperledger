@@ -12,5 +12,5 @@
 SDK Documentation: https://fabric-sdk-node.github.io/release-1.3/index.html
 
 ## Miscellaneous:
-node fabcar.js "--peer.address" "172.23.0.6:7052"
+node userchain.js "--peer.address" "172.23.0.6:7052"
 curl -sSL http://bit.ly/2ysbOFE | bash -s 1.3.0

@@ -1,7 +1,7 @@
-var express = require('express');
-var router = express.Router();
-let queryObj = require('../hyperledger/fabcar/query');
-let invokeObj = require('../hyperledger/fabcar/invoke');
+let express = require('express');
+let router = express.Router();
+let queryObj = require('../hyperledger/userchain/query');
+let invokeObj = require('../hyperledger/userchain/invoke');
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {

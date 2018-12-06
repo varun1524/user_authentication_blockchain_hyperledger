@@ -62,7 +62,7 @@ function invokeBlock(req_body, cb) {
         // must send the proposal to endorsing peers
         var request = {
             //targets: let default to the peer assigned to the client
-            chaincodeId: 'fabcar',
+            chaincodeId: 'userchain',
             fcn: 'createCar',
             args: req_body,
             chainId: 'mychannel',
