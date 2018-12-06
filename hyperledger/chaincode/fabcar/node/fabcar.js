@@ -130,17 +130,17 @@ let Chaincode = class {
         // if (args.length !== 5) {
         //   throw new Error('Incorrect number of arguments. Expecting 5');
         // }
-        // var car = {
-        //   docType: 'car',
-        //   make: args[1],
-        //   model: args[2],
-        //   color: args[3],
-        //   owner: args[4]
-        // };
         var car = {
-            docType: 'car',
-            args
+          docType: 'car',
+          make: args[1],
+          model: args[2],
+          color: args[3],
+          owner: args[4]
         };
+        // var car = {
+        //     docType: 'car',
+        //     args
+        // };
 
         await stub.putState(args[0], Buffer.from(JSON.stringify(car)));
         console.info('============= END : Create Car ===========');

@@ -73,11 +73,10 @@ function findBlock(blockHash, cb) {
         if (query_responses && query_responses.length === 1) {
             if (query_responses[0] instanceof Error) {
                 console.error("error from query = ", query_responses[0]);
+                cb(query_responses[0], null)
             } else {
                 console.log("Response is ", query_responses[0].toString());
-                cb(query_responses[0].toString());
-                // return query_responses[0].toString();
-                // return query_responses[0].toString()
+                cb(null, query_responses[0].toString());
             }
         } else {
             console.log("No payloads were returned from query");
