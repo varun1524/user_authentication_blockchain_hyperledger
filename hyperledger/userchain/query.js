@@ -51,11 +51,11 @@ function findBlock(block_hash, cb) {
             throw new Error('Failed to get user1.... run registerUser.js');
         }
 
-        // queryAllCars chaincode function - requires no arguments , ex: args: [''],
+        // queryAllUserBlocks chaincode function - requires no arguments , ex: args: [''],
         const request = {
             //targets : --- letting this default to the peers assigned to the channel
             chaincodeId: 'userchain',
-            fcn: 'queryCar',
+            fcn: 'queryUser',
             args: [block_hash]
         };
         // send the query proposal to the peer

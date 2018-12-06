@@ -33,11 +33,13 @@ router.get('/fetchblock', function(req, res, next) {
 router.post('/addblock', function(req, res, next) {
     console.log("addblock request params: ", req.body);
     let body = [
-        req.body['hash'],
-        req.body['make'],
-        req.body['model'],
-        req.body['color'],
-        req.body['owner'],
+        req.body['hash'], // Generate Here instead of expecting in body
+        req.body['email'],
+        req.body['role'],
+        req.body['company'],
+        req.body['duration'],
+        req.body['technologies'],
+        req.body['highlights']
     ];
     invokeObj.invokeBlock(body, function (err, result) {
         if(err){

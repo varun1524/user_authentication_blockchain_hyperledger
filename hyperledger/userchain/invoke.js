@@ -57,13 +57,19 @@ function invokeBlock(req_body, cb) {
         tx_id = fabric_client.newTransactionID();
         console.log("Assigning transaction_id: ", tx_id._transaction_id);
 
-        // createCar chaincode function - requires 5 args, ex: args: ['CAR12', 'Honda', 'Accord', 'Black', 'Tom'],
-        // changeCarOwner chaincode function - requires 2 args , ex: args: ['CAR10', 'Dave'],
+        // addUserBlock chaincode function - requires 5 args,
+        // ex: args: [  'varun_shah1993@yahoo.com',
+        //              'software engineer intern',
+        //              'DreamWorks Animation',
+        //              'May 2018 - Aug 2018',
+        //              'python, java',
+        //              'brilliant intern'],
+        // updateUserBlock chaincode function - requires 2 args , ex: args: ['CAR10', 'Dave'],
         // must send the proposal to endorsing peers
         var request = {
             //targets: let default to the peer assigned to the client
             chaincodeId: 'userchain',
-            fcn: 'createCar',
+            fcn: 'addUserBlock',
             args: req_body,
             chainId: 'mychannel',
             txId: tx_id
