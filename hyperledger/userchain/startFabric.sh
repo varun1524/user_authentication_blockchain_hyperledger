@@ -13,15 +13,18 @@ LEDGER_UTIL_PATH=${PWD}
 # don't rewrite paths for Windows Git Bash users
 export MSYS_NO_PATHCONV=1
 starttime=$(date +%s)
-LANGUAGE=${1:-"golang"}
+#LANGUAGE=${1:-"golang"}
+LANGUAGE=${1:-"node"}
 
 #CC_SRC_PATH=github.com/userchain/go
-CC_SRC_PATH=github.com/userchain/go
+#CC_SRC_PATH=github.com/userchain/go
 
-if [[ "$LANGUAGE" = "node" || "$LANGUAGE" = "NODE" ]]; then
+#if [[ "$LANGUAGE" = "node" || "$LANGUAGE" = "NODE" ]]; then
+##	CC_SRC_PATH=/opt/gopath/src/github.com/userchain/node
 #	CC_SRC_PATH=/opt/gopath/src/github.com/userchain/node
-	CC_SRC_PATH=/opt/gopath/src/github.com/userchain/node
-fi
+#fi
+
+CC_SRC_PATH=/opt/gopath/src/github.com/userchain/node
 
 # clean the keystore
 rm -rf ./hfc-key-store
