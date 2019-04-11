@@ -10,10 +10,10 @@ router.get('/', function(req, res, next) {
     res.status(200).send({'user status':'user api success'});
 });
 
-router.get('/fetchblock', function(req, res, next) {
+router.get('/fetch', function(req, res, next) {
     try{
         console.log("FetchBlock request params: ", req.body);
-        queryObj.findBlock(req.body.block_hash, function (err, query_res) {
+        queryObj.findBlock(req.body._id, function (err, query_res) {
             if(err){
                 res.status(404).send({'msg':'Error while fetching block' + err});
             }
