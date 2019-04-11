@@ -70,10 +70,11 @@ services:
       - CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME=
       - CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD=
     working_dir: /opt/gopath/src/github.com/hyperledger/fabric
-    command: peer node start
-    # command: peer node start --peer-chaincodedev=true
+#    command: peer node start
+    command: peer node start --peer-chaincodedev=true
     ports:
       - 7051:7051
+      - 7052:7052
       - 7053:7053
     volumes:
         - /var/run/:/host/var/run/

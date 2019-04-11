@@ -5,7 +5,7 @@
 * SPDX-License-Identifier: Apache-2.0
 */
 /*
- * Chaincode Invoke
+ * Chaincode updateBlock
  */
 
 var Fabric_Client = require('fabric-client');
@@ -29,7 +29,7 @@ var store_path = path.join(__dirname, 'hfc-key-store');
 console.log('Store path:'+store_path);
 var tx_id = null;
 
-function invokeBlock(req_body, cb) {
+function updateUserBlock(req_body, cb) {
 // create the key value store as defined in the fabric-client/config/default.json 'key-value-store' setting
     Fabric_Client.newDefaultKeyValueStore({
         path: store_path
@@ -69,7 +69,7 @@ function invokeBlock(req_body, cb) {
         var request = {
             //targets: let default to the peer assigned to the client
             chaincodeId: 'userchain',
-            fcn: 'addUserBlock',
+            fcn: 'updateUserBlock',
             args: req_body,
             chainId: 'mychannel',
             txId: tx_id
@@ -174,4 +174,4 @@ function invokeBlock(req_body, cb) {
     });
 }
 
-exports.invokeBlock = invokeBlock;
+exports.updateUserBlock = updateUserBlock;
