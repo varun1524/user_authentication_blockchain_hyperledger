@@ -75,7 +75,7 @@ function updateUserBlock(req_body, cb) {
             txId: tx_id
         };
 
-        console.log("invoke user block: ", request['args']);
+        console.log("update user block: ", request['args']);
 
         // send the transaction proposal to the peers
         return channel.sendTransactionProposal(request);
