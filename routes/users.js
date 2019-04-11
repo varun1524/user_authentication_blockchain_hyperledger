@@ -13,7 +13,7 @@ router.get('/', function(req, res, next) {
 router.get('/fetch', function(req, res, next) {
     try{
         console.log("FetchBlock request params: ", req.query);
-        queryObj.findBlock(req.query._id, function (err, query_res) {
+        queryObj.findBlock(req.body._id.toString(), function (err, query_res) {
             if(err){
                 res.status(404).send({'msg':'Error while fetching block' + err});
             }
@@ -49,7 +49,7 @@ router.post('/insertdata', function(req, res, next) {
     // };
 
     let req_body = {
-        "_id": req.body._id,
+        "_id": req.body._id.toString(),
         "block_data": []
     };
 
@@ -95,7 +95,7 @@ router.put('/insertdata', function(req, res, next) {
     // };
 
     let req_body = {
-        "_id": req.body._id,
+        "_id": req.body._id.toString(),
         "block_data": {
             ...req.body.block_data,
             'creation_date': Date.now()
