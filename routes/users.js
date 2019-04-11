@@ -2,6 +2,7 @@ let express = require('express');
 let router = express.Router();
 let queryObj = require('../hyperledger/userchain/query');
 let invokeObj = require('../hyperledger/userchain/invoke');
+let updateObj = require('../hyperledger/userchain/updateUser');
 let uuidv4 = require('uuid/v4');
 
 /* GET users listing. */
@@ -33,16 +34,87 @@ router.get('/fetchblock', function(req, res, next) {
 
 router.post('/insertdata', function(req, res, next) {
     console.log("addblock request params: ", req.body);
-    let body = [
-        uuidv4(),
-        req.body['email'],
-        req.body['role'],
-        req.body['company'],
-        req.body['duration'],
-        req.body['technologies'],
-        req.body['highlights']
-    ];
+
+
+    // let req_body = {
+    //     "_id": "",
+    //     "block_data": {
+    //         "data": {},
+    //         "operation_type": "",
+    //         "creation_date": "",
+    //         "block_type": "",
+    //         "org_id": "",
+    //         "user_id": ""
+    //     }
+    // };
+
+    let req_body = {
+        "_id": req.body._id,
+        "block_data": []
+    };
+
+    let body = [req_body['_id'], JSON.stringify(req_body['block_data'])];
+
+    // let body = [
+    //     "user0",
+    //     req.body['email'],
+    //     req.body['role'],
+    //     req.body['company'],
+    //     req.body['duration'],
+    //     req.body['technologies'],
+    //     req.body['highlights']
+    // ];
+
     invokeObj.invokeBlock(body, function (err, result) {
+        if(err){
+            res.status(404).send({'msg':'Error while adding block' + err});
+        }
+        if(result){
+            res.status(200).send({'msg':'success'});
+        }
+        else {
+            res.status(404).send({'msg':'failure'});
+        }
+    });
+});
+
+router.put('/insertdata', function(req, res, next) {
+    console.log("updateblock request params: ", req.body);
+
+
+    // let req_body = {
+    //     "_id": "",
+    //     "block_data": {
+    //         "data": {},
+    //         "operation_type": "",
+    //         "creation_date": "",
+    //         "block_type": "",
+    //         "org_id": "",
+    //         "user_id": ""
+    //     }
+    // };
+
+    let req_body = {
+        "_id": req.body._id,
+        "block_data": {
+            ...req.body.block_data,
+            'creation_date': Date.now()
+        }
+    };
+
+    let body = [req_body['_id'], JSON.stringify(req_body['block_data'])];
+
+    // let body = [
+    //     "user0",
+    //     req.body['email'],
+    //     req.body['role'],
+    //     req.body['company'],
+    //     req.body['duration'],
+    //     req.body['technologies'],
+    //     req.body['highlights']
+    // ];
+
+    updateObj.updateUserBlock(body, function (err, result) {
         if(err){
             res.status(404).send({'msg':'Error while adding block' + err});
         }

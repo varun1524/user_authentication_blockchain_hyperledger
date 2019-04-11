@@ -75,6 +75,8 @@ function invokeBlock(req_body, cb) {
             txId: tx_id
         };
 
+        console.log("invoke user block: ", request['args']);
+
         // send the transaction proposal to the peers
         return channel.sendTransactionProposal(request);
     }).then((results) => {
