@@ -39,6 +39,20 @@ let Chaincode = class {
     }
 
     async queryUser(stub, args) {
+        console.log("queryUser: ", stub, args, typeof (stub));
+        // for (let id in stub) {
+        //     try {
+        //         if (typeof(stub[id]) == "function") {
+        //             console.log(id + ": " + stub[id].toString());
+        //         }
+        //     } catch (err) {
+        //         console.log(id + ": inaccessible");
+        //     }
+        // }
+
+        console.log("Method Body : -> \n ", stub.getState().toString());
+        // console.log("Method Body : -> \n ", stub.getState().toSource())
+
         if (args.length !== 1) {
             throw new Error('Incorrect number of arguments. Expecting CarNumber ex: CAR01');
         }
@@ -88,6 +102,15 @@ let Chaincode = class {
             highlights:'studious intern'
         });
 
+
+        console.log("Method Body getState() : -> \n ", stub.getState.toString());
+
+
+
+        console.log("\n Method Body putState(): -> \n ", stub.putState.toString());
+
+
+
         for (let i = 0; i < users.length; i++) {
             users[i].docType = 'userblock';
             await stub.putState('user' + i, Buffer.from(JSON.stringify(users[i])));
@@ -98,70 +121,80 @@ let Chaincode = class {
 
     async addUserBlock(stub, args) {
         console.info('============= START : Create User ===========');
-        console.log("addUserBlock args: ", args);
-        // if (args.length !== 8) {
-        //   throw new Error('Incorrect number of arguments. Expecting 5');
-        // }
+        // console.log("addUserBlock args: ", args);
+        if (args.length !== 2) {
+          throw new Error('Incorrect number of arguments. Expecting 5');
+        }
+        // let userBlock = {
+        //     docType: 'userblock',
+        //     email:args[1],
+        //     role:args[2],
+        //     company:args[3],
+        //     duration:args[4],
+        //     technologies:args[5],
+        //     highlights:args[6]
+        // };
+
         let userBlock = {
             docType: 'userblock',
-            email:args[1],
-            role:args[2],
-            company:args[3],
-            duration:args[4],
-            technologies:args[5],
-            highlights:args[6]
+            block_data: JSON.parse(args[1])
         };
+
+        console.log("addUserBlock args1: ", userBlock);
+        console.log("addUserBlock args2: ", args);
 
         await stub.putState(args[0], Buffer.from(JSON.stringify(userBlock)));
         console.info('============= END : Create User Block ===========');
     }
 
-    // async queryAllUserBlocks(stub, args) {
-    //
-    //     let startKey = 'CAR0';
-    //     let endKey = 'CAR999';
-    //
-    //     let iterator = await stub.getStateByRange(startKey, endKey);
-    //
-    //     let allResults = [];
-    //     while (true) {
-    //         let res = await iterator.next();
-    //
-    //         if (res.value && res.value.value.toString()) {
-    //             let jsonRes = {};
-    //             console.log(res.value.value.toString('utf8'));
-    //
-    //             jsonRes.Key = res.value.key;
-    //             try {
-    //                 jsonRes.Record = JSON.parse(res.value.value.toString('utf8'));
-    //             } catch (err) {
-    //                 console.log(err);
-    //                 jsonRes.Record = res.value.value.toString('utf8');
-    //             }
-    //             allResults.push(jsonRes);
-    //         }
-    //         if (res.done) {
-    //             console.log('end of data');
-    //             await iterator.close();
-    //             console.info(allResults);
-    //             return Buffer.from(JSON.stringify(allResults));
-    //         }
-    //     }
-    // }
+    async queryAllUserBlocks(stub, args) {
 
-    // async updateUserBlock(stub, args) {
-    //     console.info('============= START : changeCarOwner ===========');
-    //     if (args.length != 2) {
-    //         throw new Error('Incorrect number of arguments. Expecting 2');
-    //     }
-    //
-    //     let carAsBytes = await stub.getState(args[0]);
-    //     let car = JSON.parse(carAsBytes);
-    //     car.owner = args[1];
-    //
-    //     await stub.putState(args[0], Buffer.from(JSON.stringify(car)));
-    //     console.info('============= END : changeCarOwner ===========');
-    // }
+        // let startKey = 'CAR0';
+        // let endKey = 'CAR999';
+        let startKey = args[0];
+        let endKey = args[1];
+
+        let iterator = await stub.getStateByRange(startKey, endKey);
+
+        let allResults = [];
+        while (true) {
+            let res = await iterator.next();
+
+            if (res.value && res.value.value.toString()) {
+                let jsonRes = {};
+                console.log(res.value.value.toString('utf8'));
+
+                jsonRes.Key = res.value.key;
+                try {
+                    jsonRes.Record = JSON.parse(res.value.value.toString('utf8'));
+                } catch (err) {
+                    console.log(err);
+                    jsonRes.Record = res.value.value.toString('utf8');
+                }
+                allResults.push(jsonRes);
+            }
+            if (res.done) {
+                console.log('end of data');
+                await iterator.close();
+                console.info(allResults);
+                return Buffer.from(JSON.stringify(allResults));
+            }
+        }
+    }
+
+    async updateUserBlock(stub, args) {
+        console.info('============= START : updateUserBlock ===========');
+        if (args.length !== 2) {
+            throw new Error('Incorrect number of arguments. Expecting 2');
+        }
+
+        let userAsBytes = await stub.getState(args[0]);
+        let user = JSON.parse(userAsBytes);
+        user.block_data.push(JSON.parse(args[1]));
+
+        await stub.putState(args[0], Buffer.from(JSON.stringify(user)));
+        console.info('============= END : updateUserBlock ===========');
+    }
 };
 
 shim.start(new Chaincode());
