@@ -33,7 +33,7 @@ router.get('/fetch', function(req, res, next) {
 });
 
 router.post('/insertdata', function(req, res, next) {
-    console.log("addblock request params: ", req.body);
+    console.log("add block request params: ", req.body);
 
 
     // let req_body = {
@@ -55,16 +55,6 @@ router.post('/insertdata', function(req, res, next) {
 
     let body = [req_body['_id'], JSON.stringify(req_body['block_data'])];
 
-    // let body = [
-    //     "user0",
-    //     req.body['email'],
-    //     req.body['role'],
-    //     req.body['company'],
-    //     req.body['duration'],
-    //     req.body['technologies'],
-    //     req.body['highlights']
-    // ];
-
     invokeObj.invokeBlock(body, function (err, result) {
         if(err){
             res.status(404).send({'msg':'Error while adding block' + err});
@@ -79,9 +69,7 @@ router.post('/insertdata', function(req, res, next) {
 });
 
 router.put('/insertdata', function(req, res, next) {
-    console.log("updateblock request params: ", req.body);
-
-
+    console.log("update block request params: ", req.body);
     // let req_body = {
     //     "_id": "",
     //     "block_data": {
@@ -98,6 +86,7 @@ router.put('/insertdata', function(req, res, next) {
         "_id": req.body._id.toString(),
         "block_data": {
             ...req.body.block_data,
+            'block_id': uuidv4(),
             'creation_date': Date.now()
         }
     };
