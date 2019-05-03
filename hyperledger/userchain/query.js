@@ -68,7 +68,7 @@ function findBlock(block_hash, cb) {
                 console.error("error from query = ", query_responses[0]);
                 cb(query_responses[0], null)
             } else {
-                console.log("Response is ", query_responses[0].toString());
+                console.log("userchain util response is ", query_responses[0].toString());
                 cb(null, query_responses[0].toString());
             }
         } else {
