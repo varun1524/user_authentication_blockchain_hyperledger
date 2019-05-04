@@ -20,12 +20,19 @@ router.get('/fetch', function(req, res, next) {
 
             if(query_res){
                 query_res = JSON.parse(query_res);
+                if(req.query.hasOwnProperty('block_id')){
+                    query_res['block_data'] = query_res['block_data'].filter((block)=>{
+                        return (block['block_id'] === req.query.block_id);
+                    });
+                }
                 if(req.query.hasOwnProperty('block_type')){
                     query_res['block_data'] = query_res['block_data'].filter((block)=>{
                         return (block['block_type'] === req.query.block_type);
                     });
                 }
+
                 console.log("Query Response : ", query_res);
+
                 res.status(200).send(query_res);
             }
             else {
