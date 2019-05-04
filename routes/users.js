@@ -20,14 +20,15 @@ router.get('/fetch', function(req, res, next) {
 
             if(query_res){
                 query_res = JSON.parse(query_res);
-                if(req.query.hasOwnProperty('block_id')){
+                if(req.query.hasOwnProperty('block_id') && req.query.block_id){
                     query_res['block_data'] = query_res['block_data'].filter((block)=>{
-                        return (block['block_id'] === req.query.block_id);
+                        return (block['block_id'].toString() === req.query.block_id.toString());
                     });
                 }
-                if(req.query.hasOwnProperty('block_type')){
+                if(req.query.hasOwnProperty('block_type') && req.query.block_type){
+
                     query_res['block_data'] = query_res['block_data'].filter((block)=>{
-                        return (block['block_type'] === req.query.block_type);
+                        return (block['block_type'].toString() === req.query.block_type.toString());
                     });
                 }
 
