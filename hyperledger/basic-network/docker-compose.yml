@@ -9,6 +9,24 @@ networks:
   basic:
 
 services:
+  hyperledger-server:
+    container_name: hyperledger-server
+    image: hyperledger-server:1.0.0
+    environment:
+      - PEER0="peer0.org1.example.com"
+      - ORDERER="orderer.example.com"
+    ports:
+      - 80:8080
+    command: npm start
+    depends_on:
+      - ca.example.com
+      - orderer.example.com
+      - peer0.org1.example.com
+      - couchdb
+      - cli
+    networks:
+      - basic
+
   ca.example.com:
     image: hyperledger/fabric-ca
     environment:

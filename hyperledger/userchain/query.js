@@ -12,13 +12,13 @@ var Fabric_Client = require('fabric-client');
 var path = require('path');
 var util = require('util');
 var os = require('os');
-
+let env = require('./env');
 //
 var fabric_client = new Fabric_Client();
 
 // setup the fabric network
 var channel = fabric_client.newChannel('mychannel');
-var peer = fabric_client.newPeer('grpc://localhost:7051');
+var peer = fabric_client.newPeer(`grpc://${env.peer0}:7051`);
 channel.addPeer(peer);
 
 //
