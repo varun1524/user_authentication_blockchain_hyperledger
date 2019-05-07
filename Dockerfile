@@ -4,10 +4,10 @@ WORKDIR /app
 
 COPY . /app
 
-ENV PEER0="peer0.org1.example.com"
-ENV ORDERER="orderer.example.com"
-
 RUN npm install
+
+#ENV PEER0
+#ENV ORDERER
 
 CMD npm start
 

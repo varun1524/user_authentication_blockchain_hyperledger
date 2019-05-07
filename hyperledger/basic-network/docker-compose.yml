@@ -9,21 +9,19 @@ networks:
   basic:
 
 services:
-  hyperledger-server:
-    container_name: hyperledger-server
-    image: hyperledger-server:1.0.0
+  uabt-hyperledger-server:
+    container_name: uabt-hyperledger-server
+    image: uabt-hyperledger-server:1.0.0
     environment:
-      - PEER0="peer0.org1.example.com"
-      - ORDERER="orderer.example.com"
+      - PEER0=peer0.org1.example.com
+      - ORDERER=orderer.example.com
     ports:
-      - 80:8080
+      - 80:8081
     command: npm start
     depends_on:
       - ca.example.com
       - orderer.example.com
       - peer0.org1.example.com
-      - couchdb
-      - cli
     networks:
       - basic
 
@@ -35,7 +33,7 @@ services:
       - FABRIC_CA_SERVER_CA_CERTFILE=/etc/hyperledger/fabric-ca-server-config/ca.org1.example.com-cert.pem
       - FABRIC_CA_SERVER_CA_KEYFILE=/etc/hyperledger/fabric-ca-server-config/4239aa0dcd76daeeb8ba0cda701851d14504d31aad1b2ddddbac6a57365e497c_sk
     ports:
-      - "7054:7054"
+      - 7054:7054
     command: sh -c 'fabric-ca-server start -b admin:adminpw'
     volumes:
       - ./crypto-config/peerOrganizations/org1.example.com/ca/:/etc/hyperledger/fabric-ca-server-config
@@ -87,6 +85,13 @@ services:
       # match the username and password set for the associated CouchDB.
       - CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME=
       - CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD=
+#      - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
+#      - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS="54.153.53.12:5984"
+#      # The CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME and CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD
+#      # provide the credentials for ledger to connect to CouchDB.  The username and password must
+#      # match the username and password set for the associated CouchDB.
+#      - CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME=admin
+#      - CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD=eBLZEruhyo9x
     working_dir: /opt/gopath/src/github.com/hyperledger/fabric
 #    command: peer node start
     command: peer node start --peer-chaincodedev=true
